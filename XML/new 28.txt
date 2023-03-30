@@ -1,0 +1,86 @@
+service
+
+
+using EmployeeDataAccess;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace EmployeeService
+
+{
+    public interface IEmployeeService 
+    {
+       //   GetEmployee(EmployeeServiceInfo employeeServiceInfo);
+        void AddEmployee(EmployeeServiceInfo employeeServiceInfo);
+       // void UpdateEmployee(EmployeeServiceInfo employeeServiceInfo);
+
+        //EmployeeServiceInfo GetEmployee(string Name);
+
+    }
+    public class EmployeeService : IEmployeeService
+    {
+        private readonly IEmployeeStore _employeeStore;
+
+                     
+        public EmployeeService (IEmployeeStore employeeStore)
+        {
+            _employeeStore = employeeStore;
+        }
+
+        //public  void  GetEmployee (EmployeeServiceInfo employeeServiceInfo)
+        //{
+
+
+        //}
+        public void AddEmployee(EmployeeServiceInfo employeeServiceInfo)
+        {
+            var employeeStoreInfo = new EmployeeStoreInfo();
+            employeeStoreInfo.Id = employeeServiceInfo.Id;
+            employeeStoreInfo.Name = employeeServiceInfo.Name;
+            employeeStoreInfo.Department = employeeServiceInfo.Department;
+            employeeStoreInfo.Dob = employeeServiceInfo.Dob;
+            employeeStoreInfo.Address1 = employeeServiceInfo.Address1;
+            employeeStoreInfo.Address2 = employeeServiceInfo.Address2;
+            employeeStoreInfo.Salary = employeeServiceInfo.Salary;
+
+            _employeeStore.AddEmployee(employeeStoreInfo);
+
+        }
+
+        //public EmployeeServiceInfo GetEmployee(string Name)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //public void UpdateEmployee(EmployeeServiceInfo employeeServiceInfo)
+        //{
+        //    throw new NotImplementedException();
+        //}
+    }
+}
+
+
+namespace EmployeeService
+{
+    public class EmployeeServiceInfo
+    {
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+
+        public string Department { get; set; }
+
+        public DateOnly Dob { get; set; }
+
+        public string Address1 { get; set; }
+
+        public string Address2 { get; set; }
+
+        public int Salary { get; set; }
+
+
+    }
+}

@@ -1,0 +1,11 @@
+C:\projects\Tickects\Tickects\bin\Debug\Tickects.exe
+C:\projects\Tickects\Tickects\bin\Debug\Tickects.exe.config
+C:\projects\Tickects\Tickects\obj\Debug\Tickects.csproj.AssemblyReference.cache
+C:\projects\Tickects\Tickects\obj\Debug\Tickects.csproj.SuggestedBindingRedirects.cache
+C:\projects\Tickects\Tickects\obj\Debug\Tickects.FrmTickets.resources
+C:\projects\Tickects\Tickects\obj\Debug\Tickects.Properties.Resources.resources
+C:\projects\Tickects\Tickects\obj\Debug\Tickects.csproj.GenerateResource.cache
+C:\projects\Tickects\Tickects\obj\Debug\Tickects.csproj.CoreCompileInputs.cache
+C:\projects\Tickects\Tickects\obj\Debug\Tickects.exe
+C:\projects\Tickects\Tickects\obj\Debug\Tickects.pdb
+C:\projects\Tickects\Tickects\bin\Debug\Tickects.pdb

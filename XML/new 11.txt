@@ -1,0 +1,63 @@
+using System;
+using System.Text;
+using System.IO;
+namespace FileHandling
+{
+    class FileWrite
+    {   
+        public void WriteData()
+        {
+            string line;
+            StreamReader sr = new StreamReader("C:\\Users\\Admin\\Documents\\xml.txt");
+            line = sr.ReadLine();
+            //Continue to read until you reach end of file
+            while (line != null)
+            {
+                //write the line to console window
+                Console.WriteLine(line);
+                //Read the next line
+                line = sr.ReadLine();
+            }
+            //close the file
+            sr.Close();
+            Console.ReadLine();
+
+        }
+        static void Main()
+        {  
+           FileWrite fileWrite = new FileWrite();
+            fileWrite.WriteData();
+        }
+    }
+}
+
+
+
+using System;
+using System.Text;
+using System.IO;
+namespace FileHandling
+{
+    class Program
+    {
+        class FileWrite
+        {
+            public void WriteData()
+            {
+                FileStream fileStream = new FileStream("C:\\Users\\Admin\\Documents\\xml.txt",FileMode.Append,FileAccess.Write);
+                StreamWriter sw = new StreamWriter(fileStream);
+                Console.WriteLine("Enter the text which you want to write to the file");
+                string str = Console.ReadLine();
+                sw.WriteLine(str);
+                sw.Flush();
+                sw.Close();
+                fileStream.Close();
+            }
+        }
+        static void Main(string[] args)
+        {
+            FileWrite fileWrite = new FileWrite();
+            fileWrite.WriteData();
+        }
+    }
+}

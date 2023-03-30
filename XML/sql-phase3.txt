@@ -1,0 +1,232 @@
+CREATE TABLE CustomerInfo(
+CustomerID  BIGINT IDENTITY(1001,1)PRIMARY KEY,
+FirstName VARCHAR(50),
+LastName VARCHAR(50),
+Date_of_Birth DATETIME,
+Gender BIT NOT NULL,    
+Email  VARCHAR(100),
+Phone_Number BIGINT)
+
+SELECT * FROM CustomerInfo
+
+INSERT INTO CustomerInfo (FirstName,LastName,Date_of_Birth,Gender,Email,Phone_Number) VALUES ('John','Smith', '2002-06-17 12:45:22',1 ,'johnsmith12@gmail.com',9500554093)
+INSERT INTO CustomerInfo (FirstName,LastName,Date_of_Birth,Gender,Email,Phone_Number) VALUES ('Paul','O''Brien','2001-02-09 09:45:34',1,'paulbrien@gmail.com',9876543210)
+INSERT INTO CustomerInfo (FirstName,LastName,Date_of_Birth,Gender,Email,Phone_Number) VALUES ('Sam','Vel','1999-07-08 11:34:54',1,'samvel@gmail.com',8765432109)
+INSERT INTO CustomerInfo (FirstName,LastName,Date_of_Birth,Gender,Email,Phone_Number) VALUES ('Peter','Joe','1996-02-19 09:22:54',1,'peterjoe@gmail.com',6543210987)
+INSERT INTO CustomerInfo (FirstName,LastName,Date_of_Birth,Gender,Email,Phone_Number) VALUES ('Thulasi','Krishnan','1997-06-23 05:42:34',1,'thulasikrishna12@gmail.com',6213478035)
+INSERT INTO CustomerInfo (FirstName,LastName,Date_of_Birth,Gender,Email,Phone_Number) VALUES ('Oliver','Charlotte','1998-01-24 07:32:54',1,'oliverchatlte@gmail.com',9807654312)
+INSERT INTO CustomerInfo (FirstName,LastName,Date_of_Birth,Gender,Email,Phone_Number) VALUES ('James','Smith','1980-09-14 06:42:24',1,'jamessmith134@gmail.com',9856821785)
+INSERT INTO CustomerInfo (FirstName,LastName,Date_of_Birth,Gender,Email,Phone_Number) VALUES ('Ruby','Willam','2003-05-21 07:23:34',0,'robertwillam131@gmail.com',9812345674)
+INSERT INTO CustomerInfo (FirstName,LastName,Date_of_Birth,Gender,Email,Phone_Number) VALUES ('David','White','2000-09-13 04:24:37',1,'davidwhite14@gmail.com',9357281225)
+INSERT INTO CustomerInfo (FirstName,LastName,Date_of_Birth,Gender,Email,Phone_Number) VALUES ('Joseph','Clark','2001-05-15 12:23:44',1,'josephclark@gmailcom',8003581680)
+INSERT INTO CustomerInfo (FirstName,LastName,Date_of_Birth,Gender,Email,Phone_Number) VALUES ('JENNY','Clark','2002-06-17 08:42:54',0,'davidclark165@gamil.com',6583911338)
+
+
+CREATE TABLE CustomerAddress(
+            CustomerID BIGINT FOREIGN KEY REFERENCES CustomerInfo(CustomerID)
+            Address1 VARCHAR (100) NOT NULL,
+            Address2 VARCHAR (100) NOT NULL,
+            State VARCHAR (50),
+            City VARCHAR (50),
+            ZipCode VARCHAR(5))
+          
+exec sp_rename 'Customers1', 'CustomerInfo'
+select * from CustomerInfo
+
+INSERT INTO CustomerAddress (Address1,Address2,State,City,ZipCode,CustomerID) VALUES ('Acorn Street','No-45 Peter road', 'Denver','Colorado',60719,1001)
+INSERT INTO CustomerAddress (Address1,Address2,State,City,ZipCode,CustomerID) VALUES ('Albert Cuypstraat street','No-122 GanEdhi street ','Denver','Colorado',60709,1002)
+INSERT INTO CustomerAddress (Address1,Address2,State,City,ZipCode,CustomerID) VALUES ('Amber Road street','No-32 Bharathi street','Denver','Colorado',60709,1003)
+INSERT INTO CustomerAddress (Address1,Address2,State,City,ZipCode,CustomerID) VALUES ('Appian Way ','North Main raod',' Florida','Tallahassee',60215,1004)
+INSERT INTO CustomerAddress (Address1,Address2,State,City,ZipCode,CustomerID) VALUES ('Atlanterhavsveien street ','No-56 St Peter road','Denver','Colorado',60709,1005)
+INSERT INTO CustomerAddress (Address1,Address2,State,City,ZipCode,CustomerID) VALUES ('Aviles Street','No-66 John Street','California','Sacramento',60815,1006)
+INSERT INTO CustomerAddress (Address1,Address2,State,City,ZipCode,CustomerID) VALUES ('Beale Street','No-66 John Street','California','Sacramento',60805,1007)
+INSERT INTO CustomerAddress (Address1,Address2,State,City,ZipCode,CustomerID) VALUES ('Bleeker Street','No-77 Willams Street','Hawaii','Honolulu',60503,1008)
+INSERT INTO CustomerAddress (Address1,Address2,State,City,ZipCode,CustomerID) VALUES ('Blue Ridge Parkway','No-66 Johnson street','Texas','Austin',60149,1009)
+INSERT INTO CustomerAddress (Address1,Address2,State,City,ZipCode,CustomerID) VALUES ('Boston Post Road','No-56 Garthik street','Ohio','Columbus',60215,1010)
+INSERT INTO CustomerAddress (Address1,Address2,State,City,ZipCode,CustomerID) VALUES ('Calle Estafeta street','No-65 kathik street','Texas','Austin',60505,1011)
+
+SELECT
+	* 
+FROM 
+	CustomerAddress
+
+SELECT
+	DATEDIFF(YY,Date_of_Birth,GETDATE()) AS  Age
+FROM 
+	Customers1
+GO
+CREATE FUNCTION AgeInfo(
+	@Date_of_Birth DATETIME)
+RETURNS INT 
+AS
+BEGIN
+DECLARE
+	@Age INT;
+SELECT
+	@Age =DATEDIFF(YY,@Date_of_Birth,
+	GETDATE()) 
+RETURN 
+	@Age;
+END
+GO
+SELECT 
+	[dbo].[AgeInfo]('1998-04-11')
+
+GO
+CREATE VIEW   CustomerDetails 
+AS 
+SELECT
+	FirstName,
+    LastName ,
+    Date_of_Birth ,
+CASE 
+WHEN  Gender = 1  THEN 'male '
+WHEN  Gender = 0  THEN 'female' 
+ELSE NULL
+END
+	Gender,
+    Email,
+    Phone_Number,
+     [dbo].[AgeInfo](Date_of_Birth) as Age 
+FROM 
+	CustomerInfo   
+ GO
+
+ --ALTER TABLE Customers1  Rename To CustomerInfo ;   
+ 
+  SELECT * FROM CustomerDetails
+
+--5.	DML Query - Find the Customers who never ordered a product named Hard Disk using LEFT OUTER JOIN. The query should not use subquery.
+
+SELECT 
+	C.FirstName,
+	C.LastName,
+	od.ProductName,
+	od.OrderId
+FROM
+	Customers C 
+	LEFT OUTER JOIN Orders O ON C.CustomerId = O.CustomerId 
+	LEFT OUTER JOIN OrderDetails OD ON O.OrderId = OD.OrderId and ProductName != 'Hard Disk'
+WHERE 
+	od.OrderId  is not null
+
+select * from OrderDetails where OrderId = 10007
+
+select 
+distinct
+	o.OrderId,
+	od.ProductName 
+from 
+	Orders o
+	left outer join OrderDetails od on o. OrderId = od.OrderId 
+where 
+	od.ProductName != 'Hard Disk'
+--group by o.OrderId
+
+SELECT C.CustomerID , C.FirstName,C.LastName 
+    FROM Customers C 
+    WHERE NOT EXISTS(SELECT O.CustomerID FROM Orders O 
+                    JOIN OrderDetails OD 
+                    ON O.OrderID =OD.OrderID
+                    WHERE c. CustomerID =O.CustomerID  and ProductName ='Hard disk')
+					
+					--select * from OrderDetails where OrderDetailsId = 100010
+--select * from OrderDetails where OrderDetailsId = 100023
+
+
+--6.	DML Query - Get the customers First Name, Last Name and the date on which they ordered the Mouse first time
+
+SELECT
+TOP 1
+	FirstName,
+	LastName,
+	MIN(CONVERT(DATE,OrderDate)) AS DATE
+FROM 
+	Customers C
+	JOIN Orders O on c.CustomerId = O.CustomerId
+	JOIN OrderDetails od on O.OrderId = OD.OrderId
+WHERE
+	ProductName = 'Mouse'
+GROUP BY 
+	FirstName,
+	LastName,
+	OrderDate
+ORDER BY
+	MIN(OrderDate)
+
+--7.	Stored Procedure - Create a stored procedure to create a customer
+
+GO
+  CREATE PROCEDURE CreateCustomer
+		@FirstName VARCHAR(100),
+         @LastName VARCHAR(100) ,
+        @Address1 VARCHAR(100),
+		@Address2 VARCHAR(100),
+        @City VARCHAR(50),
+         @State VARCHAR(50),
+         @ZipCode VARCHAR(5),
+         @Gender BIT,
+         @Date_of_Birth DATETIME,
+         @Email VARCHAR(50),
+         @Phone_Number BIGINT   
+AS
+INSERT INTO CustomerInfo(
+		FirstName,
+         LastName,
+         Gender, 
+         Date_of_Birth,
+         Email,
+         Phone_Number )  
+ VALUES (
+		@FirstName,
+		@LastName,
+		@Gender,
+		@Date_of_Birth,
+		@Email,
+		@Phone_Number
+ )
+ DECLARE @CustomerId BIGINT 
+ SET @CustomerId = (SELECT TOP 1 CustomerID FROM Customers1 ORDER BY CustomerID DESC)
+ INSERT INTO CustomerAddress(
+			CustomerID,
+            Address1,
+            Address2 ,
+            State,
+            City,
+            ZipCode)
+VALUES (
+		@CustomerId,
+	     @Address1,
+		 @Address2,
+		 @State,
+		 @City,
+		 @ZipCode
+		 )
+go
+		
+	EXECUTE CreateCustomer 
+	'aakash','chetty','add1','add2','chennai','triplicane',98987,1,'1998-04-11','aakashchetty54@gmail',1212121212
+go
+        select * from CustomerAddress
+		select * from Customers1
+
+--InLine Table Functions
+GO
+CREATE FUNCTION CustomersByGender(@Gender BIT)
+RETURNS Table
+AS
+RETURN (SELECT CustomerId,FirstName,Gender FROM Customers1 where Gender = @Gender)
+GO
+
+SELECT * FROM [dbo].[CustomersByGender] (0)
+
+--INLINE BY JOINS
+
+SELECT C.FirstName,C.Gender,CA.City FROM [dbo].[CustomersByGender](1) C
+JOIN CustomerAddress CA ON C.CustomerID = CA.CustomerID
+
+
+
+
+
+

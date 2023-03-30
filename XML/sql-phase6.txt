@@ -1,0 +1,358 @@
+USE [Shopping_Cart]
+GO
+IF OBJECT_ID('Customers', 'U') IS NOT NULL
+BEGIN
+PRINT 'Table exists.'
+END
+ELSE
+BEGIN
+PRINT 'Table does not exist.'
+END
+
+
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA .TABLES  WHERE TABLE_NAME  = 'Customers')
+BEGIN 
+CREATE TABLE Customers(
+    CustomerID  BIGINT    IDENTITY(1001,1)PRIMARY KEY,
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50),
+    Address VARCHAR(500),
+    ZipCode VARCHAR(50),
+    City VARCHAR(50),
+    State VARCHAR(50)    
+)    
+PRINT 'Table Customers Successfully Created'
+END
+ELSE
+BEGIN
+PRINT 'Table Customers Already Exists'
+END
+
+
+
+IF  EXISTS (select * from sys.VIEWS where  Name = 'CustomerDetails'  and type = 'V')
+DROP VIEW CustomerDetails
+/*BEGIN
+PRINT 'VIEW ALREADY EXISTS'
+END
+ELSE 
+BEGIN
+PRINT 'VIEW CREATED'
+END
+*/
+
+
+
+--go
+--CREATE VIEW [CustomerDetails] 
+--AS 
+--SELECT
+--	FirstName,
+--    LastName ,
+--    Date_of_Birth ,
+--CASE 
+--WHEN  Gender = 1  THEN 'male '
+--WHEN  Gender = 0  THEN 'female' 
+--ELSE NULL
+--END
+--	Gender,
+--    Email,
+--    Phone_Number,
+--     [dbo].[AgeInfo](Date_of_Birth) as Age 
+--FROM 
+--	CustomerInfo 
+--GO
+--PRINT 'View CustomerDetails Created Sucessfully '
+
+--PRINT 'View CustomerDetails Already Exists'
+
+--GO
+
+IF OBJECT_ID('CustomerDetails', 'V') IS NOT NULL
+
+    DROP VIEW CustomerDetails
+GO
+	CREATE VIEW [CustomerDetails] 
+	AS 
+	SELECT
+		FirstName,
+		LastName ,
+		Date_of_Birth ,
+	CASE 
+	WHEN  Gender = 1  THEN 'male '
+	WHEN  Gender = 0  THEN 'female' 
+	ELSE NULL
+	END
+		Gender,
+		Email,
+		Phone_Number,
+		 [dbo].[AgeInfo](Date_of_Birth) as Age 
+	FROM 
+		CustomerInfo
+GO
+ 
+SELECT * FROM [CustomerDetails]
+
+IF EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND name = 'CUSTOMERSINFO')
+DROP PROCEDURE CUSTOMERSINFO
+GO
+  CREATE PROCEDURE CUSTOMERSINFO
+  AS
+  SELECT firstname,
+         lastname,
+         address1,
+         city,
+         state,
+         zipcode,
+         CASE 
+         WHEN  Gender = 1  THEN 'male '
+         WHEN  Gender = 0  THEN 'female' 
+         ELSE NULL
+         END    
+         date_of_birth,
+         email,
+         phone_number    
+         from CustomerInfo 
+         JOIN CustomerAddress 
+         ON CustomerInfo.CustomerID =CustomerAddress.CustomerID 
+GO
+
+EXECUTE [dbo].[CUSTOMERSINFO]
+
+
+IF EXISTS (SELECT *
+           FROM   sys.objects
+           WHERE  object_id = OBJECT_ID(N'[dbo].[CustomersByGender]')
+                  AND type IN ( N'FN', N'IF', N'TF', N'FS', N'FT' ))
+ select 'function exists 1'
+
+
+
+
+
+IF   EXISTS (SELECT * 
+           FROM sys.foreign_keys 
+           WHERE object_id = OBJECT_ID(N'CustomerID') 
+             AND parent_object_id = OBJECT_ID(N'Orders'))
+ CREATE TABLE Orders(
+ OrderID BIGINT IDENTITY (10001,1)PRIMARY KEY,
+ OrderDate DATETIME,
+ CustomerID BIGINT NOT NULL FOREIGN KEY REFERENCES Customers(CustomerID)
+ )
+
+ 
+SELECT
+	o.OrderId,
+	o.OrderDate
+FROM 
+	Orders  as O
+WHERE 
+	NOT EXISTS(SELECT
+					O.OrderId 
+		       FROM
+					Orders 
+                    JOIN OrderDetails OD  ON	O.OrderID =OD.OrderID
+               WHERE 
+					o.OrderId = od.OrderId and  ProductName ='Monitor')
+
+select * from Orders o inner join OrderDetails od on o.OrderId = od.OrderId where od.ProductName = 'Monitor'
+select * from Orders
+select * from OrderDetails
+select * from Products
+
+select
+	o.OrderId,
+	o.OrderDate,
+	od.ProductName
+from
+	Orders o
+	inner join OrderDetails od on o.OrderId = od.OrderId
+where 
+	od.ProductName = 'Keyboard'
+order by 
+	o.OrderDate
+
+
+select
+	o.OrderId,
+	od.ProductName
+from 
+	Orders o
+	inner join OrderDetails od on o.OrderId = od.OrderId
+where
+	od.ProductName = 'Hard Disk'
+order by 
+	o.OrderDate desc
+
+SELECT
+	o.OrderID,
+	o.orderDate,
+	p.ProductCategoryName,'Internal Procressor'as processor
+FROM  
+	OrderDetails od
+    JOIN Products  p ON od.productID  =p.productID  
+    JOIN Orders o  ON od.OrderID  =o.OrderID  
+WHERE
+	p.ProductCategoryName ='Computer processors'
+
+   select * from CustomerInfo
+
+go
+CREATE PROCEDURE  SP_TRANSACTIONS(@Email VARCHAR(100),@CustomerID INT)
+AS
+BEGIN 
+BEGIN TRY 
+BEGIN TRANSACTION
+UPDATE
+	CustomerInfo
+SET 
+	Email=@Email   
+WHERE
+	CustomerID = @CustomerID
+COMMIT TRANSACTION 
+END TRY
+BEGIN CATCH 
+ROLLBACK TRANSACTION
+END CATCH
+END
+
+execute SP_TRANSACTIONS AAKASHchetty54@gmail,1012
+
+
+SELECT 
+	CONVERT(datetime, 
+	SWITCHOFFSET(CONVERT(DATETIMEOFFSET, Orderdate), 
+	DATENAME(TZOFFSET, SYSDATETIMEOFFSET()))) 
+AS 
+	UTC_Date_Time
+FROM 
+	Orders
+
+
+
+select * from CustomerInfo
+select * from CustomerAddress
+select * from OrderDetails
+select * from Products
+
+GO
+CREATE PROCEDURE SP_PRODUCTSTABLE
+@PRODUCTNAME VARCHAR(50)
+AS
+BEGIN
+	SELECT * FROM Products WHERE 
+	(ProductName = @PRODUCTNAME )
+END
+GO
+EXECUTE SP_PRODUCTSTABLE 'KeyBoard'
+
+GO
+
+  DECLARE @SQL nvarchar(1000)    
+    DECLARE @PRODUCTID varchar(50)
+    SET @PRODUCTID = '102'
+    SET @SQL = 'SELECT ProductID,PRODUCTNAME,ProductCategoryName FROM PRODUCTS where ProductID = '+ @PRODUCTID
+    EXEC (@SQL)
+
+	select * from Products
+
+/*
+GO
+ALTER PROCEDURE SP_INSERTUPDATE
+	
+         @Address1 VARCHAR(100),
+		 @Address2 VARCHAR(100),
+         @State VARCHAR(50),
+		 @City VARCHAR(50),
+         @ZipCode VARCHAR(5),
+		 @CustomerID bigint,
+         @Created_By_User VARCHAR(50),
+         @Modified_By VARCHAR(50)
+AS
+BEGIN
+IF  EXISTS (SELECT * FROM CustomerAddress  WHERE CustomerID = @CustomerID)
+UPDATE CustomerAddress
+SET Address1 = @Address1,Address2 = @Address2,State = @State,City = @City,ZipCode = @ZipCode,
+	 Modified_Date = getdate(),Modified_By = @Modified_By
+WHERE CustomerID = @CustomerID
+ELSE
+INSERT INTO CustomerAddress(Address1,Address2,State,City,ZipCode,CustomerID,Created_By_User,Created_Date)
+VALUES(@Address1,@Address2,@State,@City,@ZipCode,@CustomerID,@Created_By_User,Getdate())
+END
+
+exec dbo.SP_INSERTUPDATE
+'add1','add2','triplicane','chennai',98987,1014,'Monish','Aakash'
+ 
+ delete from CustomerAddress where Modified_By = 'Aakash'
+ */
+
+ GO
+CREATE PROCEDURE [dbo].[SP_INSERTUPDATE]
+	
+@OrderDetailsId BIGINT,
+@ProductName VARCHAR(50),
+@Quantity INT ,
+@Price DECIMAL ,
+@OrderId BIGINT, 
+@ProductId INT,
+@Created_By_User VARCHAR(50),
+@Modified_By VARCHAR(50)
+AS
+BEGIN
+IF  EXISTS (SELECT * FROM OrderDetails  WHERE OrderDetailsId = @OrderDetailsId)
+UPDATE
+	OrderDetails
+SET 
+	ProductName = @ProductName,
+	Quantity = @Quantity,
+	Price = @Price,
+	OrderId = @OrderId,
+	ProductID = @ProductId,
+	Modified_Date = getdate(),
+	Modified_By = @Modified_By
+WHERE 
+	OrderDetailsId = @OrderDetailsId
+ELSE
+INSERT INTO OrderDetails
+		(OrderDetailsId,
+		ProductName,
+		Quantity,
+		Price,
+		OrderId,
+		ProductID,
+		Created_By_User,
+		Created_Date)
+VALUES
+		(@OrderDetailsId,
+		@ProductName,
+		@Quantity,
+		@Price,
+		@OrderId,
+		@ProductId,
+		@Created_By_User,
+		Getdate())
+END
+
+EXECUTE [dbo].[SP_INSERTUPDATE] 100037,'i7Processor',1,'100',10008,106,'procedure','Aakash'
+
+
+select * from OrderDetails where OrderId=10008
+
+---TURN OFF IDENTITY
+set  
+identity_insert OrderDetails on
+
+IF EXISTS(SELECT 1 FROM sys.columns 
+          WHERE Name = N'OrderDate'
+          AND Object_ID = Object_ID(N'schemaName.Orders'))
+BEGIN
+   PRINT 'Column Exists'
+END
+
+select * from CustomerAddress
+select * from CustomerInfo
+select * from OrderDetails
+select * from Orders
+select * from Products
+

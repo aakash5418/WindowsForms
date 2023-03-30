@@ -1,0 +1,179 @@
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System.Linq.Expressions;
+using System.Xml;
+using System.Xml.Linq;
+using System.Xml.Serialization;
+using System.Linq;
+using Swashbuckle.Swagger;
+using System.Globalization;
+using System.Text.RegularExpressions;
+using System.IO;
+
+namespace EmployeeDetails.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class EmployeesController : ControllerBase
+    {
+        private static List<Employees> employees = new List<Employees>()
+        {
+                new Employees()
+                {
+                    Name = "Aakash",
+                    Dob = Convert.ToDateTime("1998-04-11"),
+                    Address1 = "chennai",
+                    Address2 = "triplicane",
+                    Salary = 5000
+                },
+                new Employees()
+                {
+                    Name = "Vicky",
+                    Dob = Convert.ToDateTime("1997-06-11"),
+                    Address1 = "salem",
+                    Address2 = "bypass",
+                    Salary = 6000
+                }
+        };
+        [HttpGet]
+        [Route("GetEmployees")]
+
+        public async Task<ActionResult<Employees>> GetEmployees()
+        {
+            return Ok(employees);
+        }
+
+        [HttpGet]
+        [Route("GetEmployee")]
+
+        public async Task<IActionResult> GetEmployee(string Name)
+        {
+            try
+            {
+                List<Employees>lstemp = new List<Employees>();
+                XmlTextReader xmlTextReader = new XmlTextReader(@"C:\Users\Admin\Desktop\\emp.xml");
+                XmlDocument xDoc = new XmlDocument();
+                string s1 = "";
+                xDoc.Load(@"C:\Users\Admin\Desktop\\emp.xml");
+                XmlElement root = xDoc.DocumentElement;
+                XmlNodeList elemList = root.GetElementsByTagName("Employee1");
+                for (int i = 0; i < elemList.Count; i++)
+                {
+                    Employees emp = new Employees();
+                    xmlTextReader.ReadToFollowing("Name");
+                    s1 = xmlTextReader.ReadElementContentAsString();
+                    emp.Name = s1;
+                    s1 = "";
+                    xmlTextReader.ReadToFollowing("Dob");
+                    s1 = xmlTextReader.ReadElementContentAsString();
+                    emp.Dob = Convert.ToDateTime(s1);
+                    s1 = "";
+                    xmlTextReader.ReadToFollowing("Address1");
+                    s1 = xmlTextReader.ReadElementContentAsString();
+                    emp.Address1 = s1;
+                    s1 = "";
+                    xmlTextReader.ReadToFollowing("Address2");
+                    s1 = xmlTextReader.ReadElementContentAsString();
+                    emp.Address2 = s1;
+                    s1 = "";
+                    xmlTextReader.ReadToFollowing("Salary");
+                    s1 = xmlTextReader.ReadElementContentAsString();
+                    emp.Salary = Convert.ToDecimal(s1);
+                    s1 = "";
+
+                    var res = DateTime.Now.Year - emp.Dob.Year;
+                    //if(emp.Name == Name)
+                    //{
+                    //    lstemp.Add(emp);
+                    //}
+                    if (emp.Name.Contains(Name, StringComparison.OrdinalIgnoreCase))
+                    {
+                        lstemp.Add(emp);
+                    }
+                }
+                if (lstemp.Count <= 0)
+                {
+                    return BadRequest("No Employees Found");
+                }
+                return Ok(lstemp);
+            }
+            catch (Exception ex)
+            {
+                
+                throw ex;
+            }
+        }
+
+        [HttpPost]
+        [Route("AddEmployee")]
+
+        public async Task<ActionResult<Employees>> AddEmployee(Employees request)
+        {
+            XmlDocument xDoc = new XmlDocument();
+            string s1 = "";
+            xDoc.Load(@"C:\Users\Admin\Desktop\\emp.xml");
+            string filename = @"C:\Users\Admin\Desktop\\emp.xml";
+            XmlTextWriter xmlTextWriter = new XmlTextWriter(filename, System.Text.Encoding.UTF8);
+            xmlTextWriter.Formatting = Formatting.Indented;
+            xmlTextWriter.WriteStartDocument();
+            //xmlTextWriter.WriteComment("creating a xml file using c#");
+            xmlTextWriter.WriteStartElement("Employee1");
+
+            for (int i = 1; i <= 1; i++)
+            {
+                xmlTextWriter.WriteStartElement("Employee1");
+
+                Console.WriteLine("Enter the Name for Employee1" + i);
+                xmlTextWriter.WriteElementString("Name","Monish");
+
+                Console.WriteLine("Enter the Dob for Employee1" + i);
+                xmlTextWriter.WriteElementString("Dob","10/10/20");
+
+                Console.WriteLine("Enter the Address1 for Employee1" + i);
+                xmlTextWriter.WriteElementString("Address1", "sri");
+
+                Console.WriteLine("Enter the Address2 for Employee1" + i);
+                xmlTextWriter.WriteElementString("Address2", "street");
+
+                Console.WriteLine("Enter the salary for Employee1" + i);
+                xmlTextWriter.WriteElementString("Salary", "9000");
+            }
+            xmlTextWriter.WriteEndElement();
+            xmlTextWriter.WriteEndDocument();
+            xmlTextWriter.Close();
+
+            employees.Add(request);
+            return Ok(employees);
+        }
+
+        [HttpPut]
+        [Route("UpdateEmployee")]
+
+        public async Task<ActionResult<Employees>> UpdateEmployee(Employees request)
+        {
+            var Employees = employees.Find(x => x.Name == request.Name);
+            if (Employees == null)
+                return BadRequest("No Employees Found");
+            Employees.Name = request.Name;
+            Employees.Dob = request.Dob;
+            Employees.Address1 = request.Address1;
+            Employees.Address2 = request.Address2;
+            Employees.Salary = request.Salary;
+            return Ok(Employees);
+        }
+
+        [HttpDelete]
+        [Route("DeleteEmployee")]
+
+        public async Task<ActionResult<Employees>> DeleteEmployee(string name)
+        {
+            var Employees = employees.Find(x => x.Name == name);
+            if (employees == null)
+                return BadRequest("No Employees Found");
+            employees.Remove(Employees);
+            return Ok(Employees);
+            _ = DateTime.Now.Year;
+        }
+
+    }
+}

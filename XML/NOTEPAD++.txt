@@ -1,0 +1,113 @@
+api swager finally
+
+CONTROLLER
+
+using EmployeeService;
+using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
+//using System.Web.Http;
+
+namespace WebApi.Controllers
+{
+
+    [Route("api/[controller]")]
+    [ApiController]
+    public class EmployeeController : Controller
+    {
+        private IEmployeeService _employeeService;
+
+        public EmployeeController(IEmployeeService employeeService)//constructor injection
+        {
+            _employeeService = employeeService;
+        }
+
+        [HttpPost]
+        [Route("AddEmployee")]
+
+
+        public async Task<ActionResult<EmployeeModel>> AddEmployee(EmployeeModel employeeModel)
+        {
+            try
+            {
+                var employeeServiceInfo = new EmployeeServiceInfo();
+                employeeServiceInfo.Id = employeeModel.Id;
+                employeeServiceInfo.Name = employeeModel.Name;
+                employeeServiceInfo.Department = employeeModel.Department;
+                employeeServiceInfo.Dob = employeeModel.Dob;
+                employeeServiceInfo.Address1 = employeeModel.Address1;
+                employeeServiceInfo.Address2 = employeeModel.Address2;
+                employeeServiceInfo.Salary = employeeModel.Salary;
+                _employeeService.AddEmployee(employeeServiceInfo);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("GetEmployee")]
+
+
+        public async Task<IActionResult> GetEmployee(string Name)
+        {
+            try
+            {
+                var employeeInfo = _employeeService.GetEmployee(Name);
+                return Ok(employeeInfo);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("No Employee Found");
+            }
+        }
+
+
+        [HttpPut]
+        [Route("UpdateEmployee")]
+
+        public async Task<IActionResult> UpdateEmployee(EmployeeModel employeeModel)
+        {
+            try
+            {
+                var employeeServiceInfo = new EmployeeServiceInfo();
+                employeeServiceInfo.Id = employeeModel.Id;
+                employeeServiceInfo.Name = employeeModel.Name;
+                employeeServiceInfo.Department = employeeModel.Department;
+                employeeServiceInfo.Dob = employeeModel.Dob;
+                employeeServiceInfo.Address1 = employeeModel.Address1;
+                employeeServiceInfo.Address2 = employeeModel.Address2;
+                employeeServiceInfo.Salary = employeeModel.Salary;
+
+                _employeeService.UpdateEmployee(employeeServiceInfo);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("No Employee Found");
+            }
+        }
+
+        [HttpDelete]
+        [Route("DeleteEmployee")]
+
+        public async Task<IActionResult> DeleteEmployee(int id)
+        {
+            try
+            {
+                _employeeService.DeleteEmployee(id);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("No Employee Found");
+            }
+        }
+    }
+}
+
+

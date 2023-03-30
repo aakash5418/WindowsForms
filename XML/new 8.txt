@@ -1,0 +1,72 @@
+poly
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+namespace Polymorphism
+{
+    public class EmployeeDetails
+    {
+        public string Name { get; set; }
+        public string Address1 { get; set; }
+        public string Address2 { get; set; }
+       
+    }
+    public class Employee:EmployeeDetails
+    {
+        public virtual List<Employee> Details()
+        {
+            List<Employee> employeeList = new List<Employee>();
+            for (int i = 0; i < 2; i++)
+            {
+                var employeeDetails = new Employee();
+                Console.WriteLine("enter the name : ");
+               employeeDetails.Name = Console.ReadLine();
+                Console.WriteLine("enter the address1 : ");
+                employeeDetails.Address1 = Console.ReadLine();
+                Console.WriteLine("enter the address2 : ");
+               employeeDetails.Address2 = Console.ReadLine();
+                employeeList.Add(employeeDetails);
+                
+            }
+            return employeeList;
+        }
+    }
+    
+    public class Method : Employee
+    {
+        public override List<Employee> Details()
+        {
+            Employee emp = new Employee();
+            var employeeList = emp.Details();
+          
+            foreach (EmployeeDetails employeedetails in employeeList)
+            {
+                Console.WriteLine(employeedetails.Name + " | " + employeedetails.Address1 + " | " + employeedetails.Address2);
+            }
+            var ascending = employeeList.OrderBy(x => x.Name).ToList();
+            foreach (var y in ascending)
+            {
+                Console.WriteLine(y.Name);
+            }
+            return employeeList;
+        }
+    }
+}
+
+
+using Polymorphism;
+using System;
+namespace polymorphism
+{
+   public  class Program
+    {
+        public static void Main()
+        {
+            Method method = new Method();
+            method.Details();
+        }
+    }
+} 

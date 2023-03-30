@@ -1,0 +1,88 @@
+using Microsoft.AspNetCore.Mvc;
+using System.IO;
+using System.Text.Json;
+using Newtonsoft.Json.Linq;
+
+
+namespace JsonFile.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+
+    public class HomeController : Controller
+    {
+        private static List<Employees> employees = new List<Employees>()
+        {
+
+                new Employees()
+                {
+                    Id = 1,
+                    Name = "Aakash",
+                    Department = "IT"
+                },
+                new Employees()
+                {
+                    Id = 2,
+                    Name = "Vicky",
+                    Department = "CS"
+                },
+                new Employees()
+                {   Id =3,
+                    Name = "Monish",
+                    Department = "Mech"
+                }
+        };
+
+        [HttpGet]
+        [Route("GetEmployees")]
+
+        public async Task<ActionResult<Employees>> GetEmployees()
+        {
+            return Ok(employees);
+        }
+
+        [HttpGet]
+        [Route("GetEmployee")]
+
+        public async Task<IActionResult> SelectEmployee()
+        {
+            
+            var fileName = @"C:\Users\Admin\Desktop\Employees.json";
+            
+            string text = System.IO.File.ReadAllText(fileName);
+            var employees =JsonSerializer.Deserialize<dynamic>(text);
+            
+            //if (employees.Id <= 0)
+            //{
+            //    return BadRequest("No Employee Found");
+            //}
+            //if (employees.Id == Id)
+            //{
+            //    return Ok(employees);
+            //}
+            return Ok(employees);
+        }
+
+        [HttpPost]
+        [Route("AddEmployee")]
+
+        public async Task<ActionResult<Employees>> AddEmployee(Employees request)
+        {
+            // var fileName = @"C:\Users\Admin\Desktop\Employees.json";
+
+            var jsonObj = new JObject
+            {
+                ["Id"] = request.Id,
+                ["Name"] = request.Name,
+                ["Department"] = request.Department,
+            };
+            employees.Add(request);
+            string fileName = @"C:\Users\Admin\Desktop\Employees.json";
+            string json = System.Text.Json.JsonSerializer.Serialize(employees);
+            System.IO.File.WriteAllText(fileName, json);
+            return Ok(employees);
+
+        }
+
+    }
+}

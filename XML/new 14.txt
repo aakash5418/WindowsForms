@@ -1,0 +1,49 @@
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+
+namespace EmployeeDetails.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class EmployeesController : ControllerBase
+    {
+        private static List<Employees> employees = new List<Employees>()
+            {
+                new Employees()
+                {
+                    Name = "Aakash",
+                    Dob = Convert.ToDateTime("1998-04-01"),
+                    Address1 = "chennai",
+                    Address2 = "triplicane",
+                    Salary = 5000
+                },
+                new Employees()
+                {
+                    Name = "vicky",
+                    Dob = Convert.ToDateTime("1997-06-11"),
+                    Address1 = "salem",
+                    Address2 = "bypass",
+                    Salary = 6000
+                }
+        };
+        [HttpGet]
+        [Route("GetEmployees")]
+
+        public async Task<ActionResult<Employees>>GetEmployees()
+        {
+            
+            return Ok(employees);
+        }
+
+        [HttpGet]
+        [Route("GetEmployee")]
+
+        public async Task<ActionResult<Employees>>GetEmployee(string Name)
+        {
+            var Employees = employees.Find(x => x.Name == Name);
+            if (employees == null)
+                return BadRequest("No Employees Found");
+            return Ok(Employees);
+        }
+    }
+}

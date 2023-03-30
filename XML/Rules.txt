@@ -1,0 +1,32 @@
+update la modified_date,modified_by only allows
+ 
+ we can alter not null constrains in empty table
+ cannot alter table using not null constrains for al
+ 
+ modified_date and modified_by should be null.
+ insert la modified date and modified_by should not be passing in parameters.
+ ALTER COLUMN
+ * alter table alter column la multiple columns we cant alter
+ * object_id  will be generate the system for one by one product
+ * alter table alter column la multiple columns we can drop
+ 
+ views
+ * cannot pass parameters
+ 
+ 
+ 
+ OBJECT_ID
+ 
+ * object_id  will be generate the system for one by one product
+ 
+ 
+ PIVOT (converting rows to column)
+ 
+ 
+ sql data  read and write
+ sql connection open and close
+ data adaptor in asp.net
+ how to host api in iis
+ 
+ 
+ 

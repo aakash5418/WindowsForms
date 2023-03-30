@@ -1,0 +1,72 @@
+api
+
+
+using EmployeeService;
+using System.Web.Http;
+
+namespace WebApi.Controllers
+{
+    [Route("api/[controller]")]
+  
+    public class EmployeeController : ApiController
+    {
+        private IEmployeeService _employeeService;
+
+        public EmployeeController(IEmployeeService employeeService)//constructor injection
+        {
+            _employeeService = employeeService;
+        }
+
+        [HttpPost]
+        [Route("AddEmployee")]
+
+        public IHttpActionResult AddEmployee(EmployeeModel employeeModel)
+        {
+            var employeeServiceInfo = new EmployeeServiceInfo();
+            employeeServiceInfo.Id = employeeModel.Id;
+            employeeServiceInfo.Name = employeeModel.Name;
+            employeeServiceInfo.Department = employeeModel.Department;
+            employeeServiceInfo.Dob = employeeModel.Dob;
+            employeeServiceInfo.Address1 = employeeModel.Address1;
+            employeeServiceInfo.Address2 = employeeModel.Address2;
+            employeeServiceInfo.Salary = employeeModel.Salary;
+            _employeeService.AddEmployee(employeeServiceInfo);
+          
+            return Ok();
+        }
+		
+		
+		
+		namespace WebApi.Controllers
+{
+    public class EmployeeModel
+    {
+
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+
+        public string Department { get; set; }
+
+        public DateOnly Dob { get; set; }
+
+        public string Address1 { get; set; }
+
+        public string Address2 { get; set; }
+
+        public int Salary { get; set; }
+
+
+    }
+    public class EmployeeResponse
+    {
+        public int id { get; set; }
+
+        public string Name { get; set; }
+
+        public int Age { get; set; }
+
+        public string Address { get; set; }
+
+    }
+}

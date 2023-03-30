@@ -1,0 +1,58 @@
+public async Task<ActionResult<Employees>> AddEmployee(Employees request)
+        {
+            List<Employees>listEmployees = new List<Employees> { request };
+            XmlDocument xmlDocument = new XmlDocument();
+            xmlDocument.Load(@"C:\Users\Admin\Desktop\\emp.xml");
+            
+           // XmlNode root = xmlDocument.CreateNode(XmlNodeType.Element, "Employee1");
+           XmlNode root = xmlDocument.SelectSingleNode("Employees");
+            XmlElement Employee1 = xmlDocument.CreateElement("Employee1");
+            XmlNodeType Employee1NodeType = XmlNodeType.Element;
+            root.AppendChild(Employee1);
+            //root.InnerText = request.Name;
+           // Employees employees = new Employees();
+            XmlAttribute Name = xmlDocument.CreateAttribute("Name");
+            //Name.Value = xmlDocument.SelectNodes("Employees/Employee1").Count.ToString();
+            XmlElement xmlElement = xmlDocument.CreateElement("Name");
+            XmlNodeType NameNodeType = XmlNodeType.Element;
+            xmlElement.AppendChild(Employee1);
+            Employee1.Attributes.Append(Name);
+            Employee1.InnerText = request.Name;
+
+            XmlAttribute Dob = xmlDocument.CreateAttribute("Dob");
+            XmlElement xmlElement1 = xmlDocument.CreateElement("Dob");
+            XmlNodeType DobNodeType = XmlNodeType.Element;
+            xmlElement1.AppendChild(Employee1);
+            Employee1.Attributes.Append(Dob);
+            Employee1.InnerText = request.Dob.ToString();
+           
+
+            XmlAttribute Address1 = xmlDocument.CreateAttribute("Address1");
+            XmlElement xmlElement2 = xmlDocument.CreateElement("Address1");
+            XmlNodeType Address1NodeType = XmlNodeType.Element;
+            xmlElement2.AppendChild(Employee1);
+            Employee1.Attributes.Append(Address1);
+            Employee1.InnerText = request.Address1.ToString();
+            
+
+            XmlAttribute Address2 = xmlDocument.CreateAttribute("Address2");
+            XmlElement xmlElement3 = xmlDocument.CreateElement("Address2");
+            XmlNodeType Address2NodeType = XmlNodeType.Element;
+            xmlElement3.AppendChild(Employee1);
+            Employee1.Attributes.Append(Address2);
+            Employee1.InnerText = request.Address2.ToString();
+
+            XmlAttribute Salary = xmlDocument.CreateAttribute("Salary");
+            XmlElement xmlElement4 = xmlDocument.CreateElement("Salary");
+           XmlNodeType SalaryNodeType = XmlNodeType.Element;
+            xmlElement4.AppendChild(Employee1);
+            Employee1.Attributes.Append(Salary);
+            Employee1.InnerText = request.Salary.ToString();
+           
+
+            xmlDocument.Save(@"C:\Users\Admin\Desktop\\emp.xml");
+           // Employee1.Attributes.Append(Salary);
+            //listEmployees.Add(request);
+           return Ok(listEmployees);
+
+        }

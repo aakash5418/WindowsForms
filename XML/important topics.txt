@@ -1,0 +1,103 @@
+function in date changes
+CASE 
+         WHEN  Gender = 1  THEN 'male '
+         WHEN  Gender = 0  THEN 'female' 
+         ELSE NULL
+         END    
+		 
+		 
+		 create function function_name
+		 @dateOfBirth
+		 
+		begin
+		
+		end
+		return output
+		
+		
+		
+		types of functions in sql
+		
+		 * table value function 
+		 * stored procedure 
+		 * difference between functions and stored procedure
+		 
+		 
+		 * cte => temperory variable and we can join with scripts.
+		 * difference between views and dates
+		 * views
+		 
+		 * stored procedure handling execption
+		 * temp table
+		 * indexes
+		 * cursors
+		 * dates - add hours or minutes to existing date time .
+		 need to alter existing date
+		 * date add inbuilt function
+		 * partition clause
+		 
+		 
+		 * dates
+		 *isdate
+		 day
+		 month
+		 year
+		 *datename
+		 *datepart
+		 *dateadd
+		 *datediff
+		 
+		 CALCULATING AGE 
+		                 
+		 create function function_name(@dob datetime)
+		 returns nvarchar(50)
+		 as
+		 begin
+		 declare @tempdate datetime,@years int,@months int,@days int
+		 select @tempdate = @dob
+		 select @years = datediff(year,@tempdate,getdate()) - 
+		                                                      case
+															      when(month(@dob) > month(getdate())) or 
+																  (month(@dob) = month(getdate()) and day(@dob) > day(getdate()))
+																  then 1 else 0
+															  end
+															  
+			select @tempdate = dateadd(year,@years,@tempdate)
+			
+			selet @months = datediff(month,@tempdate,getdate()) - 
+														case 
+															when day (@dob) > day(getdate())
+															then 1 else 0
+														end
+			
+			select @tempdate = dateadd(month,@months,@tempdate)
+			
+			select @days = datediff(day,@tempdate,getdate())
+			
+			--select @years as years @months as months,@days as days 
+			
+			declare @Age nvarchar(50)
+			set @Age = cast(@years as nvarchar(4)) + ' years ' + cast(@months as nvarchar(2)) + ' months ' + cast (@days as nvarchar(2)) + ' days old ' 
+			
+			return @Age
+		end
+		
+		execution part :
+		
+			select dbo.function_name('1998-01-01')
+
+
+
+CORRELATED SUBQUERY
+
+  * if subquery depends upon the outer query for its values then that subquery is called correlated subquery
+  * cannot be executed independently of the outer query
+  
+  
+ identity insert is defaultly on.
+ if we need to insert explictly means we need to off the identity insert
+ 
+ syntax to off identity insert
+ 
+ set 
+ identity insert table_name off

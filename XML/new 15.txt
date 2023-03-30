@@ -1,0 +1,8 @@
+[HttpPost]
+        [Route ("AddEmployee")]
+
+        public async Task<ActionResult<Employees>>AddEmployee(Employees request)
+        {
+            employees.Add(request);
+            return Ok (employees);
+        }

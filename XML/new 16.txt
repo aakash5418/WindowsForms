@@ -1,0 +1,89 @@
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+
+namespace EmployeeDetails.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class EmployeesController : ControllerBase
+    {
+        private static List<Employees> employees = new List<Employees>()
+            {
+                new Employees()
+                {
+                    Name = "Aakash",
+                    Dob = Convert.ToDateTime("1998-04-01"),
+                    Address1 = "chennai",
+                    Address2 = "triplicane",
+                    Salary = 5000
+                },
+                new Employees()
+                {
+                    Name = "vicky",
+                    Dob = Convert.ToDateTime("1997-06-11"),
+                    Address1 = "salem",
+                    Address2 = "bypass",
+                    Salary = 6000
+                }
+        };
+        [HttpGet]
+        [Route("GetEmployees")]
+
+        public async Task<ActionResult<Employees>>GetEmployees()
+        {
+            
+            return Ok(employees);
+        }
+
+        [HttpGet]
+        [Route("GetEmployee")]
+
+        public async Task<ActionResult<Employees>>GetEmployee(string Name)
+        {
+            var Employees = employees.Find(x => x.Name == Name);
+            if (employees == null)
+                return BadRequest("No Employees Found");
+            return Ok(Employees);
+        }
+
+        [HttpPost]
+        [Route ("AddEmployee")]
+
+        public async Task<ActionResult<Employees>>AddEmployee(Employees request)
+        {
+            employees.Add(request);
+            return Ok (employees);
+        }
+
+        [HttpPut]
+        [Route ("UpdateEmployee")]
+
+        public async Task<ActionResult<Employees>>UpdateEmployee(Employees request)
+        {
+            var Employees = employees.Find(x => x.Name == request.Name);
+            if (Employees == null)
+                return BadRequest("No Employees Found");
+            Employees.Name = request.Name;
+            Employees.Dob = request.Dob;
+            Employees.Address1 = request.Address1;
+            Employees.Address2 = request.Address2;
+            Employees.Salary = request.Salary;
+            return Ok (Employees);
+           
+        }
+
+        [HttpDelete]
+        [Route ("DeleteEmployee")]
+
+        public async Task <ActionResult<Employees>>DeleteEmployee(string name)
+        {
+            var Employees = employees.Find (x => x.Name == name);
+            if (employees == null)
+                return BadRequest("No Employees Found");
+            employees.Remove(Employees);
+            return Ok (Employees);
+
+        }
+             
+    }
+}

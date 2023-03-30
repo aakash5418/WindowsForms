@@ -1,0 +1,53 @@
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
+
+namespace Shopping_Cart.Controllers
+{
+    [Route("[controller]")]
+    [ApiController]
+    public class CustomersController : Controller
+    {
+        private readonly IConfiguration _configuration;
+        
+        public CustomersController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
+    }
+    [HttpGet]
+    [Route("GetCustomers")]
+
+    public List<CustomersInfo> GetCustomers()
+    {
+        string Connection = _configuration.GetValue<string>("ConnectionStrings : Shopping");
+        List<CustomersInfo> Custom = new List<CustomersInfo>();
+        using (SqlConnection sqlConnection = new SqlConnection(Connection))
+        {
+            string query = "select * from Customers";
+            sqlConnection.Open();
+        }
+        return Custom;
+    }
+}
+
+
+
+ public class CustomersInfo
+    {
+        public long CustomerId { get; set; }
+
+        public string FirstNaame { get; set; }  
+
+        public string LastNaame { get; set; }
+
+        public string Address1 { get; set; }
+
+        public string ZipCode { get; set; }
+
+        public string City { get; set; }
+
+        public string State { get; set; }
+
+
+    }

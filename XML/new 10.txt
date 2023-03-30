@@ -1,0 +1,27 @@
+using System;
+namespace staticClass
+{
+    public static class Employee
+    {
+        public static string Name;
+        public static int EmployeeID;
+        public static string Address;
+        public static  void EmployeeDetails()
+        {
+            Console.WriteLine("Employee Details Are : ");
+        }
+    }
+    public  static class Program
+    {
+        public static void Main()
+        {
+            Employee.Name = "Aakash";
+            Employee.EmployeeID = 101;
+            Employee.Address = "chennai";
+            Employee.EmployeeDetails();
+            Console.WriteLine("Name is " + Employee.Name);
+            Console.WriteLine("EmployeeId is " + Employee.EmployeeID);
+            Console.WriteLine("Address is " + Employee.Address);
+        }
+    }
+}

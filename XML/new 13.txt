@@ -1,0 +1,83 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Text;
+using System.Xml;
+using System.IO;
+namespace writeXmlFile
+{
+    class XmlFile
+    {
+        public static void Main()
+        {
+            string filename = @"C:\\aakash\\XML\\.xml"; 
+            XmlTextWriter xmlTextWriter = new XmlTextWriter(filename, System.Text.Encoding.UTF8);
+            xmlTextWriter.Formatting = Formatting.Indented;
+            xmlTextWriter.WriteStartDocument();
+            xmlTextWriter.WriteComment("creating a xml file using c#");
+            xmlTextWriter.WriteStartElement("Employees");
+
+            for (int i = 1; i <= 3; i++)
+            {
+                xmlTextWriter.WriteStartElement("Employee");
+
+                Console.WriteLine("Enter the ID for Employee" + i);
+                xmlTextWriter.WriteElementString("ID", Console.ReadLine());
+
+                Console.WriteLine("Enter the Name for Employee" + i);
+                xmlTextWriter.WriteElementString("Name", Console.ReadLine());
+
+                Console.WriteLine("Enter the Department for Employee" + i);
+                xmlTextWriter.WriteElementString("Department", Console.ReadLine());
+            }
+            xmlTextWriter.WriteEndElement();
+            xmlTextWriter.WriteEndDocument();
+            xmlTextWriter.Close();
+        }
+    }
+}
+
+
+readXmlFile
+
+using System;
+using System.Xml;
+namespace ReadXml
+{
+    class ReadFile
+    {
+        public static void loadEntireFile()
+        {
+            XmlDocument xmlDocument = new XmlDocument();
+            xmlDocument.Load(@"C:\\aakash\\XML\\.xml");
+            xmlDocument.Save(Console.Out);
+        }
+        public static void Main()
+        {
+            XmlTextReader xmlTextReader = new XmlTextReader(@"C:\\aakash\\XML\\.xml");
+
+            while (xmlTextReader.Read())
+            {
+                if (xmlTextReader.NodeType == XmlNodeType.Element && xmlTextReader.Name == "ID")
+                {
+                    string s1 = xmlTextReader.ReadElementString();
+                    Console.WriteLine("ID = " + s1);
+                }
+
+                if (xmlTextReader.NodeType == XmlNodeType.Element && xmlTextReader.Name == "Name") 
+                {
+                    string s2 = xmlTextReader.ReadElementString();
+                    Console.WriteLine("Name = " + s2);
+                }
+
+                if (xmlTextReader.NodeType == XmlNodeType.Element && xmlTextReader.Name == "Department")
+                {
+                    string s3 = xmlTextReader.ReadElementString();
+                    Console.WriteLine("Department = " + s3);
+                }
+            }
+
+        }
+    }
+}

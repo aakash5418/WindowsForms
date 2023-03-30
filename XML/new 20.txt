@@ -1,0 +1,122 @@
+// XmlNodeList elemList = root.GetElementsByTagName("Employee");
+          //  string xDoc = @"C:\Users\Admin\Desktop\\emp.xml";
+            XmlTextWriter xmlTextWriter = new XmlTextWriter(, System.Text.Encoding.UTF8);
+             xmlTextWriter.Formatting = Formatting.Indented;
+             xmlTextWriter.WriteStartDocument();
+                                   
+            XmlDocument xmlDocument = new XmlDocument();
+            xmlDocument.LoadXml(xDoc);
+            XmlElement parentElement = xmlDocument.CreateElement("Employee");
+            XmlElement Name = xmlDocument.CreateElement(@"name");
+            Name.AppendChild(parentElement);
+            XmlElement Dob = xmlDocument.CreateElement(@"dob");
+            Dob.AppendChild(parentElement);
+            XmlElement Address1 = xmlDocument.CreateElement(@"address1");
+            Address1.AppendChild(parentElement);
+            XmlElement Address2 = xmlDocument.CreateElement(@"address2");
+            Address1.AppendChild(parentElement);
+            XmlElement Salary = xmlDocument.CreateElement(@"salary");
+            Address1.AppendChild(parentElement);
+			
+			
+			
+			// List<Employees>lstemp = new List<Employees> { request };
+
+            // XmlTextReader xmlTextReader = new XmlTextReader(@"C:\Users\Admin\Desktop\\emp.xml");
+            // XmlDocument xDoc = new XmlDocument();
+            //// string s1 = "";
+            // xDoc.Load(@"C:\Users\Admin\Desktop\\emp.xml");
+            // XmlElement root = xDoc.DocumentElement;
+            // XmlNodeList elemList = root.GetElementsByTagName("Employee1");
+            //// Employees emp = new Employees();
+            // XmlNode node = xDoc.CreateNode(XmlNodeType.Element, "Employee1",null);
+            // node.InnerText = request.Name;
+            // root.AppendChild(node);
+            // node.InnerText = request.Dob.ToString();
+            // root.AppendChild(node);
+            // node.InnerText = request.Address1;
+            // root.AppendChild (node);
+            // node.InnerText = request.Address2;
+            // root.AppendChild(node);
+            // node.InnerText = request.Salary.ToString();
+            // root.AppendChild(node);
+
+
+            // lstemp.Add(request);
+            // XmlElement Employee1 = xDoc.CreateElement(s1);
+            // root.AppendChild(Employee1);
+
+
+
+            // XmlDocument xDoc = new XmlDocument();
+            List<Employees> lstemp = new List<Employees> { request };
+
+            XmlTextReader xmlTextReader = new XmlTextReader(@"C:\Users\Admin\Desktop\\emp.xml");
+            XmlDocument xDoc = new XmlDocument();
+            // string s1 = "";
+           // xDoc.Load(@"C:\Users\Admin\Desktop\\emp.xml");
+            xDoc.Load(@"C:\Users\Admin\Desktop\\emp.xml");
+            XmlNode root = xDoc.SelectSingleNode("Employees");
+           // XmlElement root = xDoc.DocumentElement;
+            XmlNodeList elemList = xDoc.GetElementsByTagName("Employee1");
+            // XmlElement Employee1 = xDoc.CreateElement("Employee1");
+           // root.AppendChild(Employee1);
+
+            XmlElement Name = xDoc.CreateElement(@"Name");
+            XmlAttribute xmlAttribute = xDoc.CreateAttribute("Name");
+            Name.InnerText = request.Name;
+            xmlAttribute.InnerText = request.Name;
+
+            XmlElement Dob = xDoc.CreateElement(@"Dob");
+            XmlAttribute xmlAttribute1 = xDoc.CreateAttribute("Dob");
+            Dob.InnerText = request.Dob.ToString();
+            xmlAttribute.InnerText = request.Dob.ToString();
+
+            XmlElement Address1 = xDoc.CreateElement(@"Address1");
+            XmlAttribute xmlAttribute2 = xDoc.CreateAttribute("Address1");
+            Dob.InnerText = request.Address1.ToString();
+            xmlAttribute.InnerText = request.Dob.ToString();
+
+            XmlElement Address2 = xDoc.CreateElement(@"Address2");
+            XmlAttribute xmlAttribute3 = xDoc.CreateAttribute("Address2");
+            Dob.InnerText = request.Address2.ToString();
+            xmlAttribute.InnerText = request.Dob.ToString();
+
+            XmlElement Salary = xDoc.CreateElement(@"Salary");
+            XmlAttribute xmlAttribute4 = xDoc.CreateAttribute("Salary");
+            Dob.InnerText = request.Salary.ToString();
+            xmlAttribute.InnerText = request.Salary.ToString();
+
+
+            foreach (XmlNode elem in elemList)
+            {
+                var employee = new Employees(); 
+                employee.Name = elem.InnerText;
+                employees.Add(employee);
+            }
+          //  Name.Attributes.Append(node);
+
+
+            // XmlAttribute Dob = xDoc.CreateElement(@"Dob");
+            //XmlAttribute Dob = xDoc.CreateAttribute("Dob");
+            //Dob.InnerText = request.Dob.ToString();
+            //Employee1.Attributes.Append(Dob);
+
+            //XmlAttribute Address1 = xDoc.CreateAttribute("Address1");
+            //Address1.InnerText = request.Address1.ToString();
+            //Employee1.Attributes.Append(Address1);
+
+            //XmlAttribute Address2 = xDoc.CreateAttribute("Address2");
+            //Address2.InnerText = request.Address2.ToString();
+            //Employee1.Attributes.Append(Address2);
+
+            //XmlAttribute Salary = xDoc.CreateAttribute("Salary");
+            //Salary.InnerText = request.Salary.ToString();
+            //Employee1.Attributes.Append(Salary);
+
+            xDoc.Save(@"C:\Users\Admin\Desktop\\emp.xml");
+
+            
+           // employees.Add(request);
+            return Ok(employees);
+        }

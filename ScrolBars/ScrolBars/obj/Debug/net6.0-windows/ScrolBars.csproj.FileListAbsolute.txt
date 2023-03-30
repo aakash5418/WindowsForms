@@ -1,0 +1,17 @@
+C:\projects\ScrolBars\ScrolBars\bin\Debug\net6.0-windows\ScrolBars.exe
+C:\projects\ScrolBars\ScrolBars\bin\Debug\net6.0-windows\ScrolBars.deps.json
+C:\projects\ScrolBars\ScrolBars\bin\Debug\net6.0-windows\ScrolBars.runtimeconfig.json
+C:\projects\ScrolBars\ScrolBars\bin\Debug\net6.0-windows\ScrolBars.dll
+C:\projects\ScrolBars\ScrolBars\bin\Debug\net6.0-windows\ScrolBars.pdb
+C:\projects\ScrolBars\ScrolBars\obj\Debug\net6.0-windows\ScrolBars.csproj.AssemblyReference.cache
+C:\projects\ScrolBars\ScrolBars\obj\Debug\net6.0-windows\ScrolBars.Form1.resources
+C:\projects\ScrolBars\ScrolBars\obj\Debug\net6.0-windows\ScrolBars.csproj.GenerateResource.cache
+C:\projects\ScrolBars\ScrolBars\obj\Debug\net6.0-windows\ScrolBars.GeneratedMSBuildEditorConfig.editorconfig
+C:\projects\ScrolBars\ScrolBars\obj\Debug\net6.0-windows\ScrolBars.AssemblyInfoInputs.cache
+C:\projects\ScrolBars\ScrolBars\obj\Debug\net6.0-windows\ScrolBars.AssemblyInfo.cs
+C:\projects\ScrolBars\ScrolBars\obj\Debug\net6.0-windows\ScrolBars.csproj.CoreCompileInputs.cache
+C:\projects\ScrolBars\ScrolBars\obj\Debug\net6.0-windows\ScrolBars.dll
+C:\projects\ScrolBars\ScrolBars\obj\Debug\net6.0-windows\refint\ScrolBars.dll
+C:\projects\ScrolBars\ScrolBars\obj\Debug\net6.0-windows\ScrolBars.pdb
+C:\projects\ScrolBars\ScrolBars\obj\Debug\net6.0-windows\ScrolBars.genruntimeconfig.cache
+C:\projects\ScrolBars\ScrolBars\obj\Debug\net6.0-windows\ref\ScrolBars.dll

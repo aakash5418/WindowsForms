@@ -1,0 +1,120 @@
+CREATE TABLE Products(
+ ProductId BIGINT NOT NULL PRIMARY KEY IDENTITY(101,1),
+ ProductName VARCHAR(50) NOT NULL,
+ ProductCategoryName VARCHAR(50))
+
+ INSERT INTO Products (ProductName,ProductCategoryName ) VALUES ('Hard Disk','Computer Peripherals')
+ INSERT INTO Products (ProductName,ProductCategoryName ) VALUES ('KeyBoard','Computer Peripherals')
+ INSERT INTO Products (ProductName,ProductCategoryName ) VALUES ('Monitor','Computer Peripherals')
+ INSERT INTO Products (ProductName,ProductCategoryName ) VALUES ('i3 processor','Computer Processors ')
+ INSERT INTO Products (ProductName,ProductCategoryName ) VALUES ('i5 processor','Computer Processors ')
+ INSERT INTO Products (ProductName,ProductCategoryName ) VALUES ('i7 processor','Computer Processors ')
+ 
+ select * from Products P
+ select * from  OrderDetails
+
+INSERT INTO OrderDetails(ProductName,Quantity,Price,OrderId) VALUES('i3 processor',1,60000,10003)
+INSERT INTO OrderDetails(ProductName,Quantity,Price,OrderId) VALUES('i5 processor',1,60000,10005)
+INSERT INTO OrderDetails(ProductName,Quantity,Price,OrderId) VALUES('i7 processor',1,60000,10008)
+INSERT INTO OrderDetails(ProductName,Quantity,Price,OrderId) VALUES('i3 processor',1,60000,10003)
+INSERT INTO OrderDetails(ProductName,Quantity,Price,OrderId) VALUES('i5 processor',1,60000,10005)
+INSERT INTO OrderDetails(ProductName,Quantity,Price,OrderId) VALUES('i7 processor',1,60000,10008)
+ 
+ ALTER TABLE OrderDetails 
+ ADD ProductID BIGINT FOREIGN KEY REFERENCES Products(ProductID) NULL 
+ 
+ --BULK UPDATE
+ UPDATE OrderDetails SET ProductId = P.ProductId 
+ FROM OrderDetails OD 
+ INNER JOIN Products P ON OD.ProductName = P.ProductName 
+
+ UPDATE OrderDetails SET ProductName = 'KeyBoard' WHERE ProductName ='KeyBoard and Monitor'
+ UPDATE OrderDetails SET ProductName = 'Monitor' WHERE ProductName ='Router' 
+ UPDATE OrderDetails SET ProductName = 'i3 Processor' WHERE ProductName ='Controller' 
+ UPDATE OrderDetails SET ProductName = 'i5 Processor' WHERE ProductName ='Mouse' 
+ UPDATE OrderDetails SET ProductName = 'Monitor' WHERE ProductName ='Laptop' 
+ UPDATE OrderDetails SET ProductName = 'i7 Processor' WHERE ProductName ='Printer' 
+ UPDATE OrderDetails SET ProductName = 'Monitor' WHERE ProductName ='MotherBox' 
+
+ --d.	Alter the column productid as not-null column
+
+ ALTER TABLE OrderDetails 
+ ALTER COLUMN ProductID BIGINT NOT NULL
+ select * from Customers
+ 
+ALTER TABLE 
+	Customers
+ADD 
+	Created_By_User1 VARCHAR(50),
+    Created_Date1 DATETIME default getdate(),
+    Modified_Date1 DATETIME,
+    Modified_By1 VARCHAR(50);
+
+	
+	alter table  Customers drop column  Created_By_User1,Modified_Date1
+
+
+	
+ALTER TABLE 
+	Customers
+alter column
+	--Created_By_User VARCHAR(50)not null,
+    Created_Date DATETIME not null
+    
+
+update Products set Created_By_User ='Aakash',Created_Date=GETDATE()-1,Modified_By ='Robin', Modified_Date = GETDATE()
+
+select * from CustomerAddress
+select * from Customers
+select * from OrderDetails
+select * from Orders
+select * from Products
+
+ALTER TABLE 
+	Customers1
+ADD 
+	Created_By_User VARCHAR(50),
+    Created_Date DATETIME,
+    Modified_Date DATETIME ,
+    Modified_By VARCHAR(50);
+
+ALTER TABLE 
+	CustomerAddress
+ADD 
+	Created_By_User VARCHAR(50),
+    Created_Date DATETIME,
+    Modified_Date DATETIME ,
+    Modified_By VARCHAR(50);
+
+ALTER TABLE 
+	OrderDetails
+ADD 
+	Created_By_User VARCHAR(50),
+    Created_Date DATETIME,
+    Modified_Date DATETIME ,
+    Modified_By VARCHAR(50);
+
+ALTER TABLE 
+	Orders
+ADD 
+	Created_By_User VARCHAR(50),
+    Created_Date DATETIME,
+    Modified_Date DATETIME ,
+    Modified_By VARCHAR(50);
+ 
+ALTER TABLE 
+	Products
+ADD 
+	Created_By_User VARCHAR(50),
+    Created_Date DATETIME,
+    Modified_Date DATETIME ,
+    Modified_By VARCHAR(50);
+
+	select * from Customers
+	select * from Customers1
+	select * from Orders
+	select * from CustomerAddress
+	select * from OrderDetails
+	select * from Products
+
+

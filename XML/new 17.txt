@@ -1,0 +1,47 @@
+ public async Task<IActionResult> GetEmployee()
+        {
+            try
+            {
+                Employees emp = new Employees();
+                XmlTextReader xmlTextReader = new XmlTextReader(@"C:\Users\Admin\Desktop\\emp.xml");
+                string s1 = "";
+                                                            
+                while (xmlTextReader.NodeType == XmlNodeType.Element && xmlTextReader.Name == "Name")
+                {
+                    s1 = xmlTextReader.ReadElementString();
+                    emp.Name = s1;
+                    s1 = "";
+
+                }
+                while (xmlTextReader.NodeType == XmlNodeType.Element && xmlTextReader.Name == "Dob")
+                {
+                    s1 = xmlTextReader.ReadElementString();
+                    emp.Dob = Convert.ToDateTime(s1);
+                    s1 = "";
+
+                }
+                while (xmlTextReader.NodeType == XmlNodeType.Element && xmlTextReader.Name == "Address1")
+                {
+                    s1 = xmlTextReader.ReadElementString();
+                    emp.Address1 = s1;
+                    s1 = "";
+                }
+                while (xmlTextReader.NodeType == XmlNodeType.Element && xmlTextReader.Name == "Address2")
+                {
+                    s1 = xmlTextReader.ReadElementString();
+                    emp.Address2 = s1;
+                    s1 = "";
+                }
+                while (xmlTextReader.NodeType == XmlNodeType.Element && xmlTextReader.Name == "Salary")
+                {
+                    s1 = xmlTextReader.ReadElementString();
+                    emp.Salary = Convert.ToDecimal(s1);
+                    s1 = "";
+                }
+                return Ok(emp);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }

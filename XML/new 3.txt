@@ -1,0 +1,16 @@
+using System;
+
+namespace EmployeeDetails
+{
+    public class Program
+
+    {
+        public static void Main()
+        {
+            Employee emp = new Employee();
+           
+            emp.persondetails();            
+        }
+    }
+}
+
